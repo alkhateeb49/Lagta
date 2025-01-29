@@ -1,14 +1,23 @@
 const express = require('express');
-const app = express();
-const PORT = 3000;
+const app=express();
+require('dotenv').config()
+const bp = require('body-parser')
+const PORT=process.env.PORT || 8000;
+
+
+app.use(express.static('./public')); // Public file
+app.set('view engine', 'ejs');
+
 
 // Middleware
 app.use(express.json());
 
+
+
 // Routes
-app.get('/', (req, res) => {
-    res.send('Hello, Express!');
-});
+
+app.get('/', home)
+app.get('/proceed', proceed)
 
 
 app.use((req, res) => {
@@ -16,6 +25,21 @@ app.use((req, res) => {
 });
 
 
+
+
+
+
+
+
+
+
+
+function home(req, res) {  
+  res.render('pages/index')
+}
+function proceed(req, res) {  
+  res.render('pages/proceed')
+}
 
 
 

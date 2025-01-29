@@ -1,0 +1,17 @@
+body  {
+    background: rgb(146,214,228);
+    background: radial-gradient(circle, rgba(146,214,228,1) 0%, rgba(9,9,121,1) 66%, rgba(2,0,36,1) 100%);
+    
+}
+
+
+#card {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Custom shadow */
+    border-radius: 0.5rem; /* Optional: rounded corners */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth animation */
+  }
+  
+  #card:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4); /* Enhance shadow on hover */
+  }
