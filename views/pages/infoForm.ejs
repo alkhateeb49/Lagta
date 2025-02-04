@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  
+  <header>
+    <!-- <%- include('../partials/header'); %> -->
+  </header>
+
+<main>
+
+  <div class="d-flex justify-content-center align-items-center vh-100">
+    <div id ="card2" class="card" style="width: 18rem;">
+      <div class="card-body">
+        <form>
+          <div class="mb-3">
+            <label for="fullName" class="form-label">Full Name</label>
+            <input type="name" class="form-control" id="fullName" name="fullName" required>
+          </div>
+          <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Phone Number</label>
+            <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+          </div>
+          
+          <div class="mb-3">
+            <label for="city" class="form-label">City</label>
+            <select class="form-select" id="city" name="city" required>
+              <option selected disabled>Select city</option>
+              <option value="1">Amman</option>
+              <option value="2">Irbid</option>
+              <option value="3">Zarqa</option>
+              <option value="4">Ajloun</option>
+              <option value="5">Aqaba</option>
+              <option value="6">Balqa</option>
+              <option value="7">Jerash</option>
+              <option value="8">Karak</option>
+              <option value="9">Maan</option>
+              <option value="10">Madaba</option>
+              <option value="11">Mafraq</option>
+              <option value="12">Tafilah</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="area" class="form-label">Area</label>
+            <select class="form-select" id="area" name="area" required disabled>
+              <option selected disabled>Select area</option>
+            </select>
+          </div>
+
+
+          <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+</main>
+
+<footer>
+  <br><br>
+  <%- include('../partials/footer'); %>
+</footer>
+
+
+
+<script>
+  const areas = {
+      1: ["Abdali","Abu Alanda","Abu nseir","Al-Ameer Hasan","Al-Ameera Alia","Ashrafieh","Bader","Basman","Bunayyat","Ghamadan","Hashimi Shamali","Hay Al-Mowaqqar","Hizam road","Jabal Al-Hussein","Jabal Al-Jofeh","Jabal Al-Naser","Jabal Al-Nuzha","Jabal Al-Taj","Jabal Al-Weibdeh","Jabal Amman","Jandaweel","Jawa","Jizah","Jubeiha","Kamaliyeh","Khalda","Kherbat as-Souk","Madina Al-Riyadhiya","Manarah","Marka","Matar","Maysaloon","Muhajireen","Muqabalayn","Mwaqar","Naour","Nasr","Nazzal","Qusoor","Quwaysimah","Rabahiyeh","Raghadan","Ras al-Ain","Rasheed","Sahab","Shafa badran","Shmeisani","Sweifieh","Sweileh","Tabarbour","The University of Jordan","Tla Al-ali","Um Al summaq","Um Al-Basateen","Um Nuwarah","Um quseir","Um Utheina ","Wadi Al-Seer","Yadudah","Yasmeen","Zahran","Zuhoor","Other"],
+      2: ["Aidoon","Bait Ras","Bani Kinanah","Barha","Downtown","Hai Al Gharbi","Hai Al Sharqi","Hoson","Howarah","Hurriyah","Industrial city","Kofor Jayez","Koora","Mazar Shamali","Ramtha - Al Sharqi","Ramtha- Al Gharbi","Ramtha- Al Janoubi","Ramtha- Al Shamli","Ramtha- Al Wihda","Ramtha- Industrial state","Shatana","Other"],
+      3: ["Azraq","Bierain","Dhlail","Free zone","Ghwariyah","Hashemeyye","Industrial state","Karameh","Main street","Mshairfeh","Ruseifa","Tatweer","Wadi Hajar","Wasat Al Tijari","Other"],
+      4: ["Ajlun","Kofranjah","Orjan","Sakhrah","Other"],
+      5: ["Airport","Down town","Hai Al-Fayha'a","Hai Al-radwan","Hay Al-manara","Janoubi","Old down town","Radwan","Wadi Araba","Other"],
+      6: ["Ain El-Basha","Allan","Dair Alla","Fuhais","Safoot","Salt- Al deir","Salt- Al Iskan","Salt- Al Khader","Shooneh Janoobiyeh","Zayy","Other"],
+      7: ["Iskan","Ramleh","Souf ","Other"],
+      8: ["Castle","Ghor Mazra'ah","Industrial city","Mazar Janoobi","Moojeb","Moutah","Mu'aab","Qatraneh","Thunya","Other"],
+      9: ["Husseniyeh","Jafer","Ma'an ","Petra","Shoubak","Wadi Mousa","Other"],
+      10:["Bait Almaqds","Dead Sea","Dieban","Downtown","Hai Al Janoubi","Hai Algharbi","Hai Alshamali","Hai alsharqi","Hanina","Industrial state","Ma'ien","Mokhayam","Other"],
+      11:["Al-Albayt University","Badiya Shamaliya Gharbiya","Dair El-Kahf","Hai aljanoubi","Hay Al-Hussien","Khaldieh Almadeena","Khaldieh Alrajeeb","Manshiyeh","Nahda","Ramtha- Al Janoubi","Rwaished","Um Jimal","Other"],
+      12:["Alees","Bsaira","Hessa","Other"]
+  };
+  
+  document.getElementById("city").addEventListener("change", function () {
+      const city = this.value;
+      const areaSelect = document.getElementById("area");
+      
+      areaSelect.innerHTML = '<option value="">--Select area--</option>'; // Reset options
+      areaSelect.disabled = !city; // Disable if no city is selected
+      
+      if (city) {
+          areas[city].forEach(area => {
+              const option = document.createElement("option");
+              option.value = area.toLowerCase().replace(/\s+/g, "-");
+              option.textContent = area;
+              areaSelect.appendChild(option);
+          });
+      }
+  });
+
+
+  </script>
+
+</body>
+</html>

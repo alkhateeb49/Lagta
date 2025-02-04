@@ -17,7 +17,7 @@ app.use(express.json());
 // Routes
 
 app.get('/', home)
-app.get('/proceed', proceed)
+app.get('/infoForm', infoForm)
 
 
 app.use((req, res) => {
@@ -37,8 +37,8 @@ app.use((req, res) => {
 function home(req, res) {  
   res.render('pages/index')
 }
-function proceed(req, res) {  
-  res.render('pages/proceed')
+function infoForm(req, res) {  
+  res.render('pages/infoForm')
 }
 
 
