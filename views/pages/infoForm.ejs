@@ -14,7 +14,7 @@
   <div class="d-flex justify-content-center align-items-center vh-100">
     <div id ="card2" class="card" style="width: 18rem;">
       <div class="card-body">
-        <form>
+        <form action="/record" method="POST">
           <div class="mb-3">
             <label for="fullName" class="form-label">Full Name</label>
             <input type="name" class="form-control" id="fullName" name="fullName" required>
@@ -26,6 +26,7 @@
           <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
             <input type="email" class="form-control" id="email" name="email" required>
+            <input type="hidden" id="count" name="count" hidden>
           </div>
           
           <div class="mb-3">
@@ -55,7 +56,7 @@
           </div>
 
 
-          <button type="submit" class="btn btn-primary mt-2">Submit</button>
+          <input class="btn btn-primary" type="submit" value="Buy"></span>
         </form>
       </div>
     </div>
@@ -103,6 +104,15 @@
           });
       }
   });
+
+
+  // Count value
+  const params = new URLSearchParams(window.location.search);
+  const counter = params.get("counter");
+  if (counter !== null) {
+      document.getElementById("count").value = counter;
+  }else{document.getElementById("count").value = 44;}
+  //
 
 
   </script>
