@@ -8,5 +8,6 @@ Orders(
   email VARCHAR(256) NOT NULL,
   city VARCHAR(256) NOT NULL,
   area VARCHAR(256) NOT NULL,
-  count int NOT NULL
+  count int NOT NULL,
+  accepted boolean NOT NULL
 );

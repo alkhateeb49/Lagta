@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  
+  <header>
+    <!-- <%- include('../partials/header'); %> -->
+  </header>
+
+<main>
+  <a href="../" class="btn btn-lg btn-primary">Home Page</a>
+
+  <div  id ="TopCard" class="d-flex justify-content-center align-items-center vh-100">
+    <div id ="card3" class="card">
+      <h3 class="d-flex justify-content-center card-title">Orders</h3>
+
+          
+
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Full Name</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Email</th>
+            <th scope="col">City</th>
+            <th scope="col">Area</th>
+            <th scope="col">Count</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% data.forEach(item => { %>
+          <tr>
+            <td><%= item.fullname %></td>
+            <td><%= item.phonenumber %></td>
+            <td><%= item.email %></td>
+            <td><%= item.city %></td>
+            <td><%= item.area %></td>
+            <td><%= item.count %></td>
+            <td>
+              <form action="/accept" method="post">
+              <input type="text" name="itemId" value="<%= item.id %>" hidden>
+              <input class="btn btn-primary" value="Done" type="submit">
+              </form>
+            </td>
+
+          </tr>
+
+        <% }); %>
+
+        </tbody>
+      </table>
+  
+
+    </div>
+  </div>
+
+
+
+
+  
+  
+
+</main>
+
+<footer>
+  <br><br>
+  <%- include('../partials/footer'); %>
+</footer>
+
+
+
+<script>
+  // Counter Input
+  const counterInput = document.getElementById('counter');
+const incrementButton = document.getElementById('increment');
+const decrementButton = document.getElementById('decrement');
+
+// Fetch the min and max values from the input element
+const minValue = parseInt(counterInput.getAttribute('min'), 10);
+const maxValue = parseInt(counterInput.getAttribute('max'), 10);
+
+incrementButton.addEventListener('click', () => {
+  let value = parseInt(counterInput.value, 10);
+  if (value < maxValue) {
+    counterInput.value = value + 1;
+  }
+});
+
+decrementButton.addEventListener('click', () => {
+  let value = parseInt(counterInput.value, 10);
+  if (value > minValue) {
+    counterInput.value = value - 1;
+  }
+});
+
+</script>
+
+</body>
+</html>

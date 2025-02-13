@@ -18,6 +18,9 @@ const client = new pg.Client(process.env.DATABASE_URL);
 app.get('/', home)
 app.get('/infoForm', infoForm)
 app.post('/record', record)
+app.get('/admin', admin)
+app.get('/adminDashboard', adminDashboard)
+app.post('/accept', accept)
 
 
 
@@ -36,7 +39,7 @@ function infoForm(req, res) {
   res.render('pages/infoForm')
 }
 function record(req, res) {
-  let sqlQuery = 'insert into orders (fullName,phoneNumber,email,city,area,count) values ($1,$2,$3,$4,$5,$6)';
+  let sqlQuery = 'insert into orders (fullName,phoneNumber,email,city,area,count,accepted) values ($1,$2,$3,$4,$5,$6,$7)';
   let cityName;
   switch (parseInt(req.body.city)) {
     case 1: cityName = 'Amman'; break;
@@ -53,11 +56,35 @@ function record(req, res) {
     case 12: cityName = 'Tafilah'; break;
     default: cityName = 'Unknown';
 }
-  let value = [req.body.fullName,req.body.phoneNumber,req.body.email,cityName,req.body.area,req.body.count];
+  let value = [req.body.fullName,req.body.phoneNumber,req.body.email,cityName,req.body.area,req.body.count,0];
   client.query(sqlQuery, value).then(data => {
   });
   status= "done"
   res.redirect('../');
+}
+function admin(req, res) {  
+  res.render('pages/adminLogin')
+}
+function adminDashboard(req, res) {
+  if(req.query.user=="admin" && req.query.password=="admin"){
+    client.query('SELECT * FROM orders WHERE accepted = ($1)',[0]).then(data => {
+      res.render('pages/adminDashboard',{
+        data: data.rows
+      });
+    });
+      
+  }else{
+    res.redirect('../admin');
+  }
+}
+function accept(req, res) {
+  client.query('SELECT * FROM orders WHERE id = ($1)',[req.body.itemId]).then(data => {
+    if(data.rows.length == 1){
+      client.query('UPDATE orders SET accepted = ($1) WHERE id = ($2)',[true,req.body.itemId]).then(data => {
+        res.redirect('../adminDashboard?user=admin&password=admin');
+      });
+    }
+  });
 }
 
 
