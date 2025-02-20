@@ -31,7 +31,8 @@ const upload = multer({ storage });
 // Serve static files (so users can access uploaded images)
 app.use('/uploads', express.static('uploads'));
 
-
+// Variables
+var webSiteStatus=1;
 
 
 // Routes
@@ -41,19 +42,17 @@ app.post('/record', record)
 app.get('/admin', admin)
 app.get('/adminDashboard', adminDashboard)
 app.post('/accept', accept)
-// app.post('/itemChange', itemChange)
 app.post('/itemChange', upload.single('image'), (req, res) => {
   if (!req.file) {
     return res.status(400).send('No file uploaded.');
   }
-
   const imagePath = `/Items_Img/${req.file.filename}`;
     let sqlQuery = 'insert into items (img,title,description,maxCount,minCount,count) values ($1,$2,$3,$4,$5,$6)';
     let values = [imagePath,req.body.title,req.body.description,req.body.maxCount,req.body.minCount,req.body.count];
     client.query(sqlQuery, values).then(data => {});
     res.redirect('../adminDashboard?user=admin&password=admin');
 });
-
+app.post('/webStatus', webStatus)
 
 
 
@@ -62,8 +61,15 @@ app.use((req, res) => {
 });
 
 
-function home(req, res) {  
-  res.render('pages/index')
+function home(req, res) {
+  if(webSiteStatus!=1){
+    res.render('pages/waiting')
+  }else{
+    let sqlQuery = 'SELECT * FROM items ORDER BY id DESC LIMIT 1';
+    client.query(sqlQuery).then(items => {
+    res.render('pages/index',{items: items.rows});
+  });
+  }
 }
 function infoForm(req, res) {  
   res.render('pages/infoForm')
@@ -89,8 +95,8 @@ function record(req, res) {
   let value = [req.body.fullName,req.body.phoneNumber,req.body.email,cityName,req.body.area,req.body.count,0];
   client.query(sqlQuery, value).then(data => {
   });
-  status= "done"
-  res.redirect('../');
+  // res.redirect('../thankYou');
+  res.render('pages/thankYou');
 }
 function admin(req, res) {  
   res.render('pages/adminLogin')
@@ -103,7 +109,8 @@ function adminDashboard(req, res) {
     Promise.all([query1, query2]).then(([orders, items]) => {
       res.render('pages/adminDashboard', {
         orders: orders.rows,
-        items: items.rows
+        items: items.rows,
+        webSiteStatus: webSiteStatus,
       });
     });
   }else{
@@ -119,16 +126,14 @@ function accept(req, res) {
     }
   });
 }
-function itemChange(req, res) {
-  let sqlQuery = 'insert into items (img,title,description,maxCount,minCount,count) values ($1,$2,$3,$4,$5,$6)';
-  let values = [req.body.img,req.body.title,req.body.description,req.body.maxCount,req.body.minCount,req.body.count];
-  client.query(sqlQuery, values).then(data => {});
+function webStatus(req, res) {  
+  if(webSiteStatus==1){
+    webSiteStatus=0;
+  }else if(webSiteStatus==0){
+    webSiteStatus=1;
+  }
   res.redirect('../adminDashboard?user=admin&password=admin');
 }
-
-
-
-
 
 // Start the Server
 client.connect().then((data) => {

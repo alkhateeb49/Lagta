@@ -52,7 +52,7 @@
     </div>
   </div>
 
-  <div  id ="TopCard" class="d-flex justify-content-center align-items-center m-5">
+  <div  id ="2ndCard" class="d-flex justify-content-center align-items-center m-5">
     <div id ="card2" class="card" style="width: 18rem;">
       <form action="/itemChange" method="post" enctype="multipart/form-data">
 
@@ -67,7 +67,7 @@
         <br>
         <br>
         <label for="description">Description</label>
-        <textarea class="form-control" rows="5" id="description" name="description" required> <%= items[0].description %></textarea>
+        <textarea class="form-control" rows="5" id="description" name="description" required><%= items[0].description %></textarea>
 
           <div class="d-flex align-items-center justify-content-center m-3">
             <label for="maxCount">Max : </label><input id="maxCount" name="maxCount" type="number" class="form-control text-center mx-2" value="<%= items[0].maxcount %>" style="width: 60px;">
@@ -78,9 +78,8 @@
           <div class="d-flex align-items-center justify-content-center m-3">
             <label for="count">Store: </label><input id="count" name="count" type="number" class="form-control text-center mx-2" value="<%= items[0].count %>" style="width: 60px;">
           </div>
-
           <div class="d-flex justify-content-center">
-          <input class="btn btn-primary" type="submit" value="Update"></span>
+              <input class="btn btn-primary" type="submit" value="Update"></span>
         </form>
 
         </div>
@@ -88,6 +87,13 @@
     </div>
   </div>
 
+  <div  id ="3ndCard" class="d-flex justify-content-center align-items-center m-5">
+    <div id ="card2" class="card" style="width: 18rem;">
+      <form action="/webStatus" method="post">
+        <input id="webStatusBtn" type="submit" class="btn w-100 p-3" value="">
+      </form>
+    </div>
+  </div>
 
   
   
@@ -102,8 +108,15 @@
 
 
 <script>
-function changeTitle(newtext) {
-  document.getElementById("titleInput").textContent=newtext;
+const webStatusBtn= document.getElementById('webStatusBtn');
+const webSiteStatus='<%=webSiteStatus%>';
+
+if(webSiteStatus==1){
+  webStatusBtn.classList.add("btn-danger");
+  webStatusBtn.value ="Stop Ordering Page"
+}else if(webSiteStatus==0){
+  webStatusBtn.classList.add("btn-success");
+  webStatusBtn.value ="Start Ordering Page"
 }
 
 </script>

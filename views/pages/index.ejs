@@ -14,16 +14,16 @@
   <div  id ="TopCard" class="d-flex justify-content-center align-items-center vh-100">
     <div id ="card" class="card" style="width: 18rem;">
       <!-- <img class="card-img-top" src="img/Bag_Item2.jpeg" alt="Card image cap"> -->
-      <img class="card-img-top img-fluid" src="img/Bag_Item2.jpeg" alt="Card image cap">
+      <img class="card-img-top img-fluid" src="<%= items[0].img %>" alt="Card image cap">
 
       <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <h5 class="card-title"><%= items[0].title %></h5>
+        <p class="card-text"><%= items[0].description %></p>
         <form action="/infoForm" method="get">
 
           <div class="d-flex align-items-center justify-content-center m-3">
             <div id="decrement" class="btn btn-light">-</div>
-            <input id="counter" name="counter" type="text" class="form-control text-center mx-2" value="0" style="width: 60px;" min="1" max="5" readonly required>
+            <input id="counter" name="counter" type="text" class="form-control text-center mx-2" value="<%= items[0].mincount %>" style="width: 60px;" min="<%= items[0].mincount %>" max="<%= items[0].maxcount %>" readonly required>
             <div id="increment" class="btn btn-light">+</div>
           </div>
 
@@ -36,12 +36,6 @@
     </div>
   </div>
 
-
-
-
-  
-  
-
 </main>
 
 <footer>
@@ -52,11 +46,8 @@
 
 
 <script>
-//
 var element = document.getElementById("homeNav");
 element.classList.add("active");
-
-
 
 // Counter Input
 const counterInput = document.getElementById('counter');
