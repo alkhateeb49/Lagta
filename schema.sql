@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS Orders;
+DROP TABLE IF EXISTS Items;
 
 CREATE TABLE IF NOT EXISTS
 Orders(
@@ -10,4 +11,15 @@ Orders(
   area VARCHAR(256) NOT NULL,
   count int NOT NULL,
   accepted boolean NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS
+Items(
+  id SERIAL PRIMARY KEY NOT NULL,
+  img VARCHAR(256) NOT NULL,
+  title VARCHAR(256) NOT NULL,
+  description VARCHAR(256) NOT NULL,
+  maxCount int NOT NULL,
+  minCount int NOT NULL,
+  count int NOT NULL
 );

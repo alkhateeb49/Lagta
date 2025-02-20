@@ -6,17 +6,13 @@
 <body>
   
   <header>
-    <!-- <%- include('../partials/header'); %> -->
+    <%- include('../partials/header'); %>
   </header>
 
 <main>
-  <a href="../" class="btn btn-lg btn-primary">Home Page</a>
-
-  <div  id ="TopCard" class="d-flex justify-content-center align-items-center vh-100">
+  <div  id ="TopCard" class="d-flex justify-content-center align-items-center m-5">
     <div id ="card3" class="card">
       <h3 class="d-flex justify-content-center card-title">Orders</h3>
-
-          
 
       <table class="table table-bordered">
         <thead>
@@ -31,23 +27,22 @@
           </tr>
         </thead>
         <tbody>
-        <% data.forEach(item => { %>
+        <% orders.forEach(order => { %>
           <tr>
-            <td><%= item.fullname %></td>
-            <td><%= item.phonenumber %></td>
-            <td><%= item.email %></td>
-            <td><%= item.city %></td>
-            <td><%= item.area %></td>
-            <td><%= item.count %></td>
+            <td><%= order.fullname %></td>
+            <td><%= order.phonenumber %></td>
+            <td><%= order.email %></td>
+            <td><%= order.city %></td>
+            <td><%= order.area %></td>
+            <td><%= order.count %></td>
             <td>
               <form action="/accept" method="post">
-              <input type="text" name="itemId" value="<%= item.id %>" hidden>
+              <input type="text" name="itemId" value="<%= order.id %>" hidden>
               <input class="btn btn-primary" value="Done" type="submit">
               </form>
             </td>
 
           </tr>
-
         <% }); %>
 
         </tbody>
@@ -57,7 +52,41 @@
     </div>
   </div>
 
+  <div  id ="TopCard" class="d-flex justify-content-center align-items-center m-5">
+    <div id ="card2" class="card" style="width: 18rem;">
+      <form action="/itemChange" method="post" enctype="multipart/form-data">
 
+      <!-- <img class="card-img-top img-fluid" src="img/Bag_Item2.jpeg" alt="Card image cap"> -->
+      <img class="card-img-top img-fluid" src="<%= items[0].img %>" alt="Card image cap">
+      
+      <input class="form-control" type="file" id="image" name="image" required/>
+
+      <div class="card-body">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" value="<%= items[0].title %>"/>
+        <br>
+        <br>
+        <label for="description">Description</label>
+        <textarea class="form-control" rows="5" id="description" name="description" required> <%= items[0].description %></textarea>
+
+          <div class="d-flex align-items-center justify-content-center m-3">
+            <label for="maxCount">Max : </label><input id="maxCount" name="maxCount" type="number" class="form-control text-center mx-2" value="<%= items[0].maxcount %>" style="width: 60px;">
+          </div>
+          <div class="d-flex align-items-center justify-content-center m-3">
+            <label for="minCount">Min : </label><input id="minCount" name="minCount" type="number" class="form-control text-center mx-2" value="<%= items[0].mincount %>" style="width: 60px;">
+          </div>
+          <div class="d-flex align-items-center justify-content-center m-3">
+            <label for="count">Store: </label><input id="count" name="count" type="number" class="form-control text-center mx-2" value="<%= items[0].count %>" style="width: 60px;">
+          </div>
+
+          <div class="d-flex justify-content-center">
+          <input class="btn btn-primary" type="submit" value="Update"></span>
+        </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
 
 
   
@@ -73,28 +102,9 @@
 
 
 <script>
-  // Counter Input
-  const counterInput = document.getElementById('counter');
-const incrementButton = document.getElementById('increment');
-const decrementButton = document.getElementById('decrement');
-
-// Fetch the min and max values from the input element
-const minValue = parseInt(counterInput.getAttribute('min'), 10);
-const maxValue = parseInt(counterInput.getAttribute('max'), 10);
-
-incrementButton.addEventListener('click', () => {
-  let value = parseInt(counterInput.value, 10);
-  if (value < maxValue) {
-    counterInput.value = value + 1;
-  }
-});
-
-decrementButton.addEventListener('click', () => {
-  let value = parseInt(counterInput.value, 10);
-  if (value > minValue) {
-    counterInput.value = value - 1;
-  }
-});
+function changeTitle(newtext) {
+  document.getElementById("titleInput").textContent=newtext;
+}
 
 </script>
 

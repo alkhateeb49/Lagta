@@ -1,5 +1,6 @@
 const express = require('express');
 const app=express();
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -14,6 +15,25 @@ const PORT=process.env.PORT || 8000;
 let pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL);
 
+
+// Configure storage
+const multer = require('multer');
+const path = require('path');
+const storage = multer.diskStorage({
+  destination: './public/Items_Img', // Folder to store images
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
+  }
+});
+
+const upload = multer({ storage });
+
+// Serve static files (so users can access uploaded images)
+app.use('/uploads', express.static('uploads'));
+
+
+
+
 // Routes
 app.get('/', home)
 app.get('/infoForm', infoForm)
@@ -21,15 +41,25 @@ app.post('/record', record)
 app.get('/admin', admin)
 app.get('/adminDashboard', adminDashboard)
 app.post('/accept', accept)
+// app.post('/itemChange', itemChange)
+app.post('/itemChange', upload.single('image'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send('No file uploaded.');
+  }
+
+  const imagePath = `/Items_Img/${req.file.filename}`;
+    let sqlQuery = 'insert into items (img,title,description,maxCount,minCount,count) values ($1,$2,$3,$4,$5,$6)';
+    let values = [imagePath,req.body.title,req.body.description,req.body.maxCount,req.body.minCount,req.body.count];
+    client.query(sqlQuery, values).then(data => {});
+    res.redirect('../adminDashboard?user=admin&password=admin');
+});
+
 
 
 
 app.use((req, res) => {
   res.status(404).send('Page Not Found!');
 });
-
-
-
 
 
 function home(req, res) {  
@@ -67,12 +97,15 @@ function admin(req, res) {
 }
 function adminDashboard(req, res) {
   if(req.query.user=="admin" && req.query.password=="admin"){
-    client.query('SELECT * FROM orders WHERE accepted = ($1)',[0]).then(data => {
-      res.render('pages/adminDashboard',{
-        data: data.rows
+    const query1 = client.query('SELECT * FROM orders WHERE accepted = $1', [0]);
+    const query2 = client.query('SELECT * FROM items ORDER BY id DESC LIMIT 1');
+
+    Promise.all([query1, query2]).then(([orders, items]) => {
+      res.render('pages/adminDashboard', {
+        orders: orders.rows,
+        items: items.rows
       });
     });
-      
   }else{
     res.redirect('../admin');
   }
@@ -86,8 +119,12 @@ function accept(req, res) {
     }
   });
 }
-
-
+function itemChange(req, res) {
+  let sqlQuery = 'insert into items (img,title,description,maxCount,minCount,count) values ($1,$2,$3,$4,$5,$6)';
+  let values = [req.body.img,req.body.title,req.body.description,req.body.maxCount,req.body.minCount,req.body.count];
+  client.query(sqlQuery, values).then(data => {});
+  res.redirect('../adminDashboard?user=admin&password=admin');
+}
 
 
 
