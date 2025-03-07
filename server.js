@@ -9,7 +9,7 @@ app.set('view engine', 'ejs');
 
 require('dotenv').config()
 const bp = require('body-parser')
-const PORT=process.env.PORT || 8000;
+const PORT=process.env.PORT || 8080;
 
 // DATABASE
 let pg = require('pg');
