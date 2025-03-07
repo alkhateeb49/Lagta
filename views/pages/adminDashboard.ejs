@@ -56,27 +56,39 @@
     <div id ="card2" class="card" style="width: 18rem;">
       <form action="/itemChange" method="post" enctype="multipart/form-data">
 
-      <!-- <img class="card-img-top img-fluid" src="img/Bag_Item2.jpeg" alt="Card image cap"> -->
-      <img class="card-img-top img-fluid" src="<%= items[0].img %>" alt="Card image cap">
+      <img class="card-img-top img-fluid" src="<%= items[0] && items[0].img ? items[0].img : 'default-image.jpg' %>" alt="Card image cap">
       
       <input class="form-control" type="file" id="image" name="image" required/>
 
       <div class="card-body">
         <label for="title">Title</label>
-        <input type="text" name="title" id="title" value="<%= items[0].title %>"/>
+        <input type="text" name="title" id="title" value="<%= items[0] && items[0].title ? items[0].title : '' %>"/>
         <br>
         <br>
         <label for="description">Description</label>
-        <textarea class="form-control" rows="5" id="description" name="description" required><%= items[0].description %></textarea>
+        <textarea class="form-control" rows="5" id="description" name="description" required>
+          <%= items[0] && items[0].description ? items[0].description : '' %>
+        </textarea>
+        
 
           <div class="d-flex align-items-center justify-content-center m-3">
-            <label for="maxCount">Max : </label><input id="maxCount" name="maxCount" type="number" class="form-control text-center mx-2" value="<%= items[0].maxcount %>" style="width: 60px;">
+            
+            <label for="maxCount">Max : </label>
+            <input id="maxCount" name="maxCount" type="number" class="form-control text-center mx-2" value="<%= items[0] && items[0].maxcount ? items[0].maxcount : 100 %>" style="width: 60px;">
+
           </div>
           <div class="d-flex align-items-center justify-content-center m-3">
-            <label for="minCount">Min : </label><input id="minCount" name="minCount" type="number" class="form-control text-center mx-2" value="<%= items[0].mincount %>" style="width: 60px;">
+            <label for="minCount">Min : </label>
+            <input id="minCount" name="minCount" type="number" class="form-control text-center mx-2" value="<%= items[0] && items[0].mincount ? items[0].mincount : 0 %>" style="width: 60px;">
+
           </div>
           <div class="d-flex align-items-center justify-content-center m-3">
-            <label for="count">Store: </label><input id="count" name="count" type="number" class="form-control text-center mx-2" value="<%= items[0].count %>" style="width: 60px;">
+
+            <label for="count">Store: </label>
+            <input id="count" name="count" type="number" class="form-control text-center mx-2" 
+                  value="<%= items[0] && items[0].count ? items[0].count : 0 %>" 
+                  style="width: 60px;">
+
           </div>
           <div class="d-flex justify-content-center">
               <input class="btn btn-primary" type="submit" value="Update"></span>
