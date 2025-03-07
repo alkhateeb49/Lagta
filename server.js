@@ -138,7 +138,7 @@ function webStatus(req, res) {
 // Start the Server
 client.connect().then((data) => {
   app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running Port:${PORT}`);
   });
 }).catch(error => {
   console.log('error in connect to database ' + error);

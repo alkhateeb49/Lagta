@@ -18,16 +18,26 @@
 
   <div  id ="TopCard" class="d-flex justify-content-center align-items-center vh-100">
     <div id ="card" class="card" style="width: 18rem;">
-      <img id="image" class="card-img-top img-fluid" src="<%= items[0].img %>" alt="Card image cap" onclick="full_view(this);">
+
+    <img id="image" class="card-img-top img-fluid" src="<%= items[0] && items[0].img ? items[0].img : '' %>" alt="Card image cap" onclick="full_view(this);">
+
 
       <div class="card-body">
-        <h5 class="card-title"><%= items[0].title %></h5>
-        <p class="card-text"><%= items[0].description %></p>
+
+        <h5 class="card-title"><%= items[0] && items[0].title ? items[0].title : 'Default Title' %></h5>
+        <p class="card-text"><%= items[0] && items[0].description ? items[0].description : 'No description available' %></p>
+
         <form action="/infoForm" method="get">
 
           <div class="d-flex align-items-center justify-content-center m-3">
             <div id="decrement" class="btn btn-light">-</div>
-            <input id="counter" name="counter" type="text" class="form-control text-center mx-2" value="<%= items[0].mincount %>" style="width: 60px;" min="<%= items[0].mincount %>" max="<%= items[0].maxcount %>" readonly required>
+            
+            <input id="counter" name="counter" type="text" class="form-control text-center mx-2"
+             value="<%= items[0] && items[0].mincount ? items[0].mincount : 0 %>"
+             style="width: 60px;" 
+             min="<%= items[0] && items[0].mincount ? items[0].mincount : 0 %>"
+             max="<%= items[0] && items[0].maxcount ? items[0].maxcount : 100 %>" readonly required>
+
             <div id="increment" class="btn btn-light">+</div>
           </div>
 
